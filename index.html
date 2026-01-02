@@ -156,7 +156,129 @@
 <script>
   // ===== ESTADO =====
   const players = [];
-  const words = ["Manzana", "Auto", "Playa", "Perro", "Montaña"];
+const words = [
+  "Manzana",
+  "Banana",
+  "Naranja",
+  "Frutilla",
+  "Sandía",
+  "Uva",
+  "Pera",
+  "Limón",
+  "Durazno",
+  "Ananá",
+
+  "Auto",
+  "Camión",
+  "Moto",
+  "Bicicleta",
+  "Avión",
+  "Barco",
+  "Tren",
+  "Subte",
+  "Colectivo",
+  "Helicóptero",
+
+  "Perro",
+  "Gato",
+  "Caballo",
+  "Vaca",
+  "Oveja",
+  "Cerdo",
+  "Conejo",
+  "León",
+  "Tigre",
+  "Elefante",
+
+  "Playa",
+  "Montaña",
+  "Bosque",
+  "Desierto",
+  "Río",
+  "Lago",
+  "Isla",
+  "Cascada",
+  "Volcán",
+  "Selva",
+
+  "Mesa",
+  "Silla",
+  "Cama",
+  "Sofá",
+  "Armario",
+  "Puerta",
+  "Ventana",
+  "Espejo",
+  "Lámpara",
+  "Alfombra",
+
+  "Teléfono",
+  "Computadora",
+  "Teclado",
+  "Mouse",
+  "Pantalla",
+  "Auriculares",
+  "Cámara",
+  "Televisor",
+  "Reloj",
+  "Radio",
+
+  "Pizza",
+  "Hamburguesa",
+  "Empanada",
+  "Milanesa",
+  "Asado",
+  "Pasta",
+  "Sopa",
+  "Ensalada",
+  "Sandwich",
+  "Torta",
+
+  "Pelota",
+  "Raqueta",
+  "Tablero",
+  "Dado",
+  "Carta",
+  "Rompecabezas",
+  "Videojuego",
+  "Muñeco",
+  "Bloques",
+  "Trompo",
+
+  "Escuela",
+  "Hospital",
+  "Banco",
+  "Supermercado",
+  "Restaurante",
+  "Cine",
+  "Teatro",
+  "Museo",
+  "Biblioteca",
+  "Estadio",
+
+  "Sombrero",
+  "Zapato",
+  "Campera",
+  "Remera",
+  "Pantalón",
+  "Bufanda",
+  "Guantes",
+  "Vestido",
+  "Cinturón",
+  "Mochila",
+
+  "Sol",
+  "Luna",
+  "Estrella",
+  "Nube",
+  "Lluvia",
+  "Viento",
+  "Nieve",
+  "Tormenta",
+  "Arcoíris",
+  "Trueno"
+];
+
 
   let impostorIndex = null;
   let secretWord = "";
@@ -228,8 +350,8 @@
 
     result.textContent =
       index === impostorIndex
-        ? "😈 Sos el IMPOSTOR"
-        : "🍎 Palabra: " + secretWord;
+        ? "😈 IMPOSTOR 😈"
+        : "Palabra: " + secretWord.toUpperCase();
 
     button.disabled = true;
 
