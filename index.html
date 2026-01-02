@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Juego del Impostor</title>
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 16px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 16px;
+      margin: 6px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #2563eb;
+      color: white;
+    }
+
+    button:disabled {
+      background: #475569;
+      cursor: not-allowed;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin: 4px 0;
+    }
+
+    #game {
+      max-width: 400px;
+      margin: auto;
+    }
+
+    #buttons button {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    #result {
+      font-size: 22px;
+      margin: 16px 0 8px;
+      min-height: 28px;
+    }
+
+    #countdown {
+      font-size: 18px;
+      color: #93c5fd;
+      min-height: 24px;
+    }
+
+    .secondary {
+      background: #16a34a;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>El impostor</h1>
+  <!-- PANTALLA 1 -->
+  <div id="setup">
+    <h2>Jugadores</h2>
+
+    <input id="playerInput" placeholder="Nombre del jugador" />
+    <button onclick="addPlayer()">Agregar</button>
+
+    <ul id="playerList"></ul>
+
+    <button class="secondary" onclick="startGame()">Empezar juego</button>
+  </div>
+
+  <!-- PANTALLA 2 -->
+  <div id="game" style="display:none;">
+    <h2>Tocá tu nombre</h2>
+
+    <div id="buttons"></div>
+
+    <p id="result"></p>
+    <p id="countdown"></p>
+
+    <button class="secondary" onclick="resetGame()">Nueva partida</button>
+  </div>
+
+<script>
+  // ===== ESTADO =====
+  const players = [];
+  const words = ["Manzana", "Auto", "Playa", "Perro", "Montaña"];
+
+  let impostorIndex = null;
+  let secretWord = "";
+  let countdownInterval = null;
+
+  // ===== SETUP =====
+  function addPlayer() {
+    const input = document.getElementById("playerInput");
+    const name = input.value.trim();
+
+    if (!name) return;
+
+    players.push(name);
+    input.value = "";
+    renderPlayerList();
+  }
+
+  function renderPlayerList() {
+    const ul = document.getElementById("playerList");
+    ul.innerHTML = "";
+
+    players.forEach(player => {
+      const li = document.createElement("li");
+      li.textContent = player;
+      ul.appendChild(li);
+    });
+  }
+
+  // ===== JUEGO =====
+  function startGame() {
+    if (players.length < 3) {
+      alert("Mínimo 3 jugadores");
+      return;
+    }
+
+    document.getElementById("setup").style.display = "none";
+    document.getElementById("game").style.display = "block";
+
+    resetGame();
+  }
+
+  function resetGame() {
+    clearInterval(countdownInterval);
+
+    impostorIndex = Math.floor(Math.random() * players.length);
+    secretWord = words[Math.floor(Math.random() * words.length)];
+
+    document.getElementById("result").textContent = "";
+    document.getElementById("countdown").textContent = "";
+
+    renderButtons();
+  }
+
+  function renderButtons() {
+    const container = document.getElementById("buttons");
+    container.innerHTML = "";
+
+    players.forEach((player, index) => {
+      const btn = document.createElement("button");
+      btn.textContent = player;
+
+      btn.onclick = () => revealRole(index, btn);
+
+      container.appendChild(btn);
+    });
+  }
+
+  function revealRole(index, button) {
+    clearInterval(countdownInterval);
+
+    const result = document.getElementById("result");
+    const countdownEl = document.getElementById("countdown");
+
+    if (index === impostorIndex) {
+      result.textContent = "😈 IMPOSTOR 😈";
+    } else {
+      result.textContent = "Palabra: " + secretWord.toUpperCase();
+    }
+
+    button.disabled = true;
+
+    let seconds = 5;
+    countdownEl.textContent = `Se oculta en ${seconds}s`;
+
+    countdownInterval = setInterval(() => {
+      seconds--;
+      countdownEl.textContent = `Se oculta en ${seconds}s`;
+
+      if (seconds === 0) {
+        clearInterval(countdownInterval);
+        result.textContent = "";
+        countdownEl.textContent = "";
+      }
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>
